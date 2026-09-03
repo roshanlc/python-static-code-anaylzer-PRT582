@@ -1,93 +1,138 @@
-import ast
+from code_analyzer.duplicate import find_duplicate_code
 
 
-class VariableUsageVisitor(ast.NodeVisitor):
+def test_identical_function_bodies_are_detected():
     """
-    Visit a function and record variables that are assigned
-    and variables that are subsequently used.
+    Two functions with exactly the same body should be
+    reported as duplicate code.
     """
+    source = (
+        "def first(value):\n"
+        "    result = value + 1\n"
+        "    return result\n"
+        "\n"
+        "def second(value):\n"
+        "    result = value + 1\n"
+        "    return result\n"
+    )
 
-    def __init__(self):
-        # Store names that are assigned values.
-        self.assigned = set()
+    result = find_duplicate_code(source)
 
-        # Store names that are actually referenced.
-        self.used = set()
-
-    def visit_Name(self, node):
-        """
-        Process variable names in the AST.
-
-        A Name node can represent either an assignment or a
-        reference depending on its context.
-        """
-
-        # Store variables when they are assigned.
-        if isinstance(node.ctx, ast.Store):
-            self.assigned.add(node.id)
-
-        # Store variables when they are read/referenced.
-        elif isinstance(node.ctx, ast.Load):
-            self.used.add(node.id)
-
-        # Continue visiting child nodes.
-        self.generic_visit(node)
+    assert ("first", "second") in result
 
 
-def find_unused_variables(source):
+def test_different_function_bodies_are_not_duplicates():
     """
-    Find variables that are assigned but never used.
-
-    The analysis includes:
-    - local variables
-    - function parameters
-    - loop variables
-
-    Names beginning with '_' are ignored because they commonly
-    represent intentionally unused values.
+    Functions with different logic should not be reported
+    as duplicate code.
     """
+    source = (
+        "def first(value):\n"
+        "    return value + 1\n"
+        "\n"
+        "def second(value):\n"
+        "    return value + 2\n"
+    )
 
-    # Parse the source code without executing it.
-    tree = ast.parse(source)
+    result = find_duplicate_code(source)
 
-    unused = set()
+    assert result == []
 
-    # Analyse every function independently.
-    for function in (
-        node
-        for node in ast.walk(tree)
-        if isinstance(node, (ast.FunctionDef, ast.AsyncFunctionDef))
-    ):
-        visitor = VariableUsageVisitor()
 
-        # Check function parameters.
-        for argument in function.args.posonlyargs:
-            visitor.assigned.add(argument.arg)
+def test_function_names_do_not_affect_duplicate_detection():
+    """
+    The function names themselves should not matter.
+    Only the function body is compared.
+    """
+    source = (
+        "def calculate(value):\n"
+        "    total = value * 2\n"
+        "    return total\n"
+        "\n"
+        "def process(value):\n"
+        "    total = value * 2\n"
+        "    return total\n"
+    )
 
-        for argument in function.args.args:
-            visitor.assigned.add(argument.arg)
+    result = find_duplicate_code(source)
 
-        for argument in function.args.kwonlyargs:
-            visitor.assigned.add(argument.arg)
+    assert ("calculate", "process") in result
 
-        # Check *args.
-        if function.args.vararg:
-            visitor.assigned.add(function.args.vararg.arg)
 
-        # Check **kwargs.
-        if function.args.kwarg:
-            visitor.assigned.add(function.args.kwarg.arg)
+def test_whitespace_does_not_affect_duplicate_detection():
+    """
+    Different indentation/formatting should not prevent
+    two logically identical AST bodies from being detected.
+    """
+    source = (
+        "def first(value):\n"
+        "    result = value + 1\n"
+        "    return result\n"
+        "\n"
+        "def second(value):\n"
+        "        result = value + 1\n"
+        "        return result\n"
+    )
 
-        # Visit the function body to find assignments and uses.
-        for statement in function.body:
-            visitor.visit(statement)
+    result = find_duplicate_code(source)
 
-        # A variable is unused when it was assigned but never
-        # referenced.
-        for name in visitor.assigned - visitor.used:
+    assert ("first", "second") in result
 
-            # Ignore intentionally unused/private-style names.
-            if not name.startswith("_"):
-                unused.add(name)
 
-    return sorted(unused)
+def test_comments_do_not_affect_duplicate_detection():
+    """
+    Comments are not part of the AST structure used for
+    comparison, so they should not prevent detection.
+    """
+    source = (
+        "def first(value):\n"
+        "    # calculate result\n"
+        "    result = value + 1\n"
+        "    return result\n"
+        "\n"
+        "def second(value):\n"
+        "    # another comment\n"
+        "    result = value + 1\n"
+        "    return result\n"
+    )
+
+    result = find_duplicate_code(source)
+
+    assert ("first", "second") in result
+
+
+def test_function_is_not_reported_as_duplicate_of_itself():
+    """
+    A function must never be compared with itself.
+    """
+    source = (
+        "def calculate(value):\n"
+        "    return value + 1\n"
+    )
+
+    result = find_duplicate_code(source)
+
+    assert result == []
+
+
+def test_multiple_duplicate_functions_are_detected():
+    """
+    If several functions contain identical bodies, each
+    duplicate pair should be identified.
+    """
+    source = (
+        "def first(value):\n"
+        "    return value + 1\n"
+        "\n"
+        "def second(value):\n"
+        "    return value + 1\n"
+        "\n"
+        "def third(value):\n"
+        "    return value + 1\n"
+    )
+
+    result = find_duplicate_code(source)
+
+    assert ("first", "second") in result
+    assert ("first", "third") in result
+    assert ("second", "third") in result
