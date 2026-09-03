@@ -1,0 +1,18 @@
+============================= test session starts ==============================
+platform linux -- Python 3.14.7, pytest-9.1.1, pluggy-1.6.0 -- /home/roshanam/projects/uni/python-static-code-anaylzer-PRT582/venv/bin/python
+cachedir: .pytest_cache
+rootdir: /home/roshanam/projects/uni/python-static-code-anaylzer-PRT582
+plugins: cov-7.1.0
+collecting ... collected 9 items
+
+tests/test_complexity.py::test_simple_function_has_complexity_one PASSED [ 11%]
+tests/test_complexity.py::test_if_statement_adds_one_to_complexity PASSED [ 22%]
+tests/test_complexity.py::test_for_loop_adds_one_to_complexity PASSED    [ 33%]
+tests/test_complexity.py::test_while_loop_adds_one_to_complexity PASSED  [ 44%]
+tests/test_complexity.py::test_except_handler_adds_one_to_complexity PASSED [ 55%]
+tests/test_complexity.py::test_and_operator_adds_one_to_complexity PASSED [ 66%]
+tests/test_complexity.py::test_or_operator_adds_one_to_complexity PASSED [ 77%]
+tests/test_complexity.py::test_nested_decisions_are_counted PASSED       [ 88%]
+tests/test_complexity.py::test_conditional_expression_adds_one PASSED    [100%]
+
+============================== 9 passed in 0.03s ===============================
