@@ -7,6 +7,7 @@ Author: Roshan Lamichhane (S399178)
 
 ## Requirements
 - pytest
+- pytest-cov
 
 ## Guide to Run Program
 
