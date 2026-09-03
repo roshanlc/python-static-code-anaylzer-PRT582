@@ -5,6 +5,9 @@
 Author: Roshan Lamichhane (S399178)
 
 
+## Requirements
+- pytest
+
 ## Guide to Run Program
 
 
