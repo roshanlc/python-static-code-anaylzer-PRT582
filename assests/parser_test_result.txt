@@ -1,0 +1,16 @@
+============================= test session starts ==============================
+platform linux -- Python 3.14.7, pytest-9.1.1, pluggy-1.6.0 -- /home/roshanam/projects/uni/python-static-code-anaylzer-PRT582/venv/bin/python
+cachedir: .pytest_cache
+rootdir: /home/roshanam/projects/uni/python-static-code-anaylzer-PRT582
+plugins: cov-7.1.0
+collecting ... collected 7 items
+
+tests/test_parser.py::test_valid_python_is_parsed PASSED                 [ 14%]
+tests/test_parser.py::test_function_source_is_parsed PASSED              [ 28%]
+tests/test_parser.py::test_empty_source_is_rejected PASSED               [ 42%]
+tests/test_parser.py::test_whitespace_only_source_is_rejected PASSED     [ 57%]
+tests/test_parser.py::test_non_string_source_is_rejected PASSED          [ 71%]
+tests/test_parser.py::test_invalid_python_is_rejected PASSED             [ 85%]
+tests/test_parser.py::test_single_line_with_trailing_newline_is_valid PASSED [100%]
+
+============================== 7 passed in 0.01s ===============================
