@@ -113,3 +113,5 @@ tests/test_unused.py::test_multiple_unused_variables_are_detected PASSED [100%]
 ```
 
 ## Code Coverage
+Link to file: ![code_coverage_html](htmlcov/index.html)
+<img src="assests/code-cov.png"/>
