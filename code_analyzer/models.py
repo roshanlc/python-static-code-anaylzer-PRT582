@@ -24,3 +24,16 @@ class CodeMetrics:
 
     # Number of import statements.
     imports: int
+
+@dataclass(frozen=True)
+class AnalysisResult:
+    """
+    Store the complete results produced by the static
+    code analyzer.
+    """
+
+    metrics: CodeMetrics
+    complexity: dict[str, int]
+    unused_variables: list[str]
+    duplicates: list[tuple[str, str]]
+    naming_violations: list[str]
