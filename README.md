@@ -10,7 +10,38 @@ Author: Roshan Lamichhane (S399178)
 - pytest-cov
 
 ## Guide to Run Program
+```bash
+$ python main.py
+Enter path to source file: 
+example_bad_code.py
 
+========== CODE ANALYSIS ==========
+
+--- Code Metrics ---
+Lines:         8
+Blank lines:   1
+Comments:      0
+Functions:     2
+Classes:       0
+Imports:       0
+
+--- Complexity ---
+add: 1
+another_function: 1
+
+--- Unused Variables ---
+- b
+- unusedValue
+
+--- Duplicate Code ---
+None
+
+--- Naming Violations ---
+- unusedValue
+
+===================================
+
+```
 
 ## Guide to Run Tests
 > pytest -vv tests/*.py
