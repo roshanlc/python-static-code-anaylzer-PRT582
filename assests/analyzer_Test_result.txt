@@ -1,0 +1,13 @@
+============================= test session starts ==============================
+platform linux -- Python 3.14.7, pytest-9.1.1, pluggy-1.6.0 -- /home/roshanam/projects/uni/python-static-code-anaylzer-PRT582/venv/bin/python
+cachedir: .pytest_cache
+rootdir: /home/roshanam/projects/uni/python-static-code-anaylzer-PRT582
+plugins: cov-7.1.0
+collecting ... collected 4 items
+
+tests/test_analyzer.py::test_analyzer_returns_complete_result PASSED     [ 25%]
+tests/test_analyzer.py::test_analyzer_detects_complexity PASSED          [ 50%]
+tests/test_analyzer.py::test_analyzer_detects_duplicate_functions PASSED [ 75%]
+tests/test_analyzer.py::test_clean_source_produces_no_violations PASSED  [100%]
+
+============================== 4 passed in 0.03s ===============================

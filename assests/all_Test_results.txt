@@ -1,22 +1,3 @@
-# PRT582 - Software Unit Testing Report Project
-
-## Project: Python Static Code Analyzer
-
-Author: Roshan Lamichhane (S399178)
-
-
-## Requirements
-- pytest
-- pytest-cov
-
-## Guide to Run Program
-
-
-## Guide to Run Tests
-> pytest -vv tests/*.py
-
-## Test Results
-```
 ============================= test session starts ==============================
 platform linux -- Python 3.14.7, pytest-9.1.1, pluggy-1.6.0 -- /home/roshanam/projects/uni/python-static-code-anaylzer-PRT582/venv/bin/python
 cachedir: .pytest_cache
@@ -79,6 +60,3 @@ tests/test_unused.py::test_used_loop_variable_is_not_reported PASSED     [ 98%]
 tests/test_unused.py::test_multiple_unused_variables_are_detected PASSED [100%]
 
 ============================== 53 passed in 0.08s ==============================
-```
-
-## Code Coverage
